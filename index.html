@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Result Portal</title>
+
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .container {
+            width: 460px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin: 8px 0 15px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+
+        button {
+            padding: 11px 18px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 4px;
+        }
+
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+
+        .add-button {
+            background-color: #1976d2;
+        }
+
+
+        .past-button {
+            background-color: #673ab7;
+        }
+
+
+        .save-button {
+            width: 100%;
+            background-color: green;
+        }
+
+
+        .update-button {
+            width: 100%;
+            background-color: #ff9800;
+        }
+
+
+        .cancel-button {
+            width: 100%;
+            background-color: #777;
+        }
+
+        .form-section {
+            display: none;
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+
+        .form-section h2 {
+            text-align: center;
+        }
+
+
+        #result {
+            margin-top: 30px;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+
+        th,
+        td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: center;
+        }
+
+
+        th {
+            background-color: #ddd;
+        }
+
+
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+
+
+        .fail {
+            color: red;
+            font-weight: bold;
+        }
+
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+
+
+        .past-section {
+            display: none;
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+
+        .past-section h2 {
+            text-align: center;
+        }
+
+
+        .student-table {
+            font-size: 13px;
+        }
+
+
+        .edit-btn {
+            background-color: #ff9800;
+            padding: 7px 10px;
+        }
+
+
+        .delete-btn {
+            background-color: #e53935;
+            padding: 7px 10px;
+        }
+
+
+        .no-data {
+            text-align: center;
+            color: #777;
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <h1>🎓 Student Result Portal</h1>
+
+
+    <p class="subtitle">
+        Enter your Enrollment Number to check your result
+    </p>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-section">
+
+        <input
+            type="text"
+            id="searchEnrollment"
+            placeholder="Enter Enrollment Number"
+        >
+
+
+        <button onclick="checkResult()">
+            View Result
+        </button>
+
+
+        <br>
+
+
+        <button
+            class="add-button"
+            onclick="showAddForm()">
+            + Add New Student
+        </button>
+
+
+        <button
+            class="past-button"
+            onclick="showPastEntries()">
+            📋 View Past Entries
+        </button>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div id="result"></div>
+
+
+    <!-- ADD / EDIT FORM -->
+
+    <div
+        class="form-section"
+        id="studentForm">
+
+
+        <h2 id="formTitle">
+            Add New Student
+        </h2>
+
+
+        <label>Student Name</label>
+
+        <input
+            type="text"
+            id="studentName"
+            placeholder="Enter student name"
+        >
+
+
+        <label>Enrollment Number</label>
+
+        <input
+            type="text"
+            id="studentEnrollment"
+            placeholder="Enter enrollment number"
+        >
+
+
+        <label>Semester</label>
+
+        <input
+            type="number"
+            id="studentSemester"
+            placeholder="Enter semester"
+        >
+
+
+        <label>Java Marks</label>
+
+        <input
+            type="number"
+            id="javaMarks"
+            placeholder="Enter Java marks"
+        >
+
+
+        <label>Computer Network Marks</label>
+
+        <input
+            type="number"
+            id="cnMarks"
+            placeholder="Enter Computer Network marks"
+        >
+
+
+        <label>WAD Marks</label>
+
+        <input
+            type="number"
+            id="wadMarks"
+            placeholder="Enter WAD marks"
+        >
+
+
+        <label>PDS Marks</label>
+
+        <input
+            type="number"
+            id="pdsMarks"
+            placeholder="Enter PDS marks"
+        >
+
+
+        <button
+            id="saveButton"
+            class="save-button"
+            onclick="saveStudent()">
+
+            Save Student
+
+        </button>
+
+
+        <button
+            id="updateButton"
+            class="update-button"
+            onclick="updateStudent()"
+            style="display:none;">
+
+            Update Student
+
+        </button>
+
+
+        <button
+            class="cancel-button"
+            onclick="cancelForm()">
+
+            Cancel
+
+        </button>
+
+
+    </div>
+
+
+    <!-- PAST ENTRIES -->
+
+    <div
+        class="past-section"
+        id="pastEntries">
+
+
+        <h2>📋 Past Student Entries</h2>
+
+
+        <div id="studentList"></div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+    // Get existing data from Local Storage
+
+    let students =
+        JSON.parse(localStorage.getItem("students")) || [];
+
+
+    // Variable for editing student
+
+    let editIndex = -1;
+
+
+
+    // ==========================================
+    // SHOW ADD FORM
+    // ==========================================
+
+    function showAddForm() {
+
+        editIndex = -1;
+
+
+        document.getElementById("studentForm")
+            .style.display = "block";
+
+
+        document.getElementById("pastEntries")
+            .style.display = "none";
+
+
+        document.getElementById("result")
+            .innerHTML = "";
+
+
+        document.getElementById("formTitle")
+            .innerText = "Add New Student";
+
+
+        document.getElementById("saveButton")
+            .style.display = "block";
+
+
+        document.getElementById("updateButton")
+            .style.display = "none";
+
+
+        clearForm();
+
+    }
+
+
+
+    // ==========================================
+    // CLEAR FORM
+    // ==========================================
+
+    function clearForm() {
+
+        document.getElementById("studentName").value = "";
+
+        document.getElementById("studentEnrollment").value = "";
+
+        document.getElementById("studentSemester").value = "";
+
+        document.getElementById("javaMarks").value = "";
+
+        document.getElementById("cnMarks").value = "";
+
+        document.getElementById("wadMarks").value = "";
+
+        document.getElementById("pdsMarks").value = "";
+
+    }
+
+
+
+    // ==========================================
+    // SAVE NEW STUDENT
+    // ==========================================
+
+    function saveStudent() {
+
+        let name =
+            document.getElementById("studentName").value.trim();
+
+        let enrollment =
+            document.getElementById("studentEnrollment").value.trim();
+
+        let semester =
+            document.getElementById("studentSemester").value;
+
+        let java =
+            Number(document.getElementById("javaMarks").value);
+
+        let cn =
+            Number(document.getElementById("cnMarks").value);
+
+        let wad =
+            Number(document.getElementById("wadMarks").value);
+
+        let pds =
+            Number(document.getElementById("pdsMarks").value);
+
+
+        if (
+            name === "" ||
+            enrollment === "" ||
+            semester === "" ||
+            java === "" ||
+            cn === "" ||
+            wad === "" ||
+            pds === ""
+        ) {
+
+            alert("Please fill all fields!");
+
+            return;
+        }
+
+
+        // Check duplicate enrollment
+
+        let existingStudent =
+            students.find(
+                student =>
+                student.enrollment === enrollment
+            );
+
+
+        if (existingStudent) {
+
+            alert(
+                "This Enrollment Number already exists!"
+            );
+
+            return;
+        }
+
+
+        // Calculate total
+
+        let total =
+            java + cn + wad + pds;
+
+
+        let percentage =
+            (total / 400) * 100;
+
+
+        // Create student
+
+        let student = {
+
+            name: name,
+
+            enrollment: enrollment,
+
+            semester: semester,
+
+            java: java,
+
+            cn: cn,
+
+            wad: wad,
+
+            pds: pds,
+
+            total: total,
+
+            percentage:
+                percentage.toFixed(2)
+
+        };
+
+
+        students.push(student);
+
+
+        // Save to Local Storage
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
+
+
+        alert(
+            "Student added successfully!"
+        );
+
+
+        clearForm();
+
+
+        showPastEntries();
+
+    }
+
+
+
+    // ==========================================
+    // SHOW PAST ENTRIES
+    // ==========================================
+
+    function showPastEntries() {
+
+        document.getElementById("pastEntries")
+            .style.display = "block";
+
+
+        document.getElementById("studentForm")
+            .style.display = "none";
+
+
+        document.getElementById("result")
+            .innerHTML = "";
+
+
+        displayStudents();
+
+    }
+
+
+
+    // ==========================================
+    // DISPLAY ALL STUDENTS
+    // ==========================================
+
+    function displayStudents() {
+
+        let list =
+            document.getElementById("studentList");
+
+
+        if (students.length === 0) {
+
+            list.innerHTML = `
+                <p class="no-data">
+                    No student entries found.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        let html = `
+
+            <table class="student-table">
+
+                <tr>
+
+                    <th>Enrollment</th>
+
+                    <th>Name</th>
+
+                    <th>Sem</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+        `;
+
+
+        students.forEach(
+            (student, index) => {
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${student.enrollment}
+                        </td>
+
+                        <td>
+                            ${student.name}
+                        </td>
+
+                        <td>
+                            ${student.semester}
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="edit-btn"
+                                onclick="editStudent(${index})">
+
+                                Edit
+
+                            </button>
+
+
+                            <button
+                                class="delete-btn"
+                                onclick="deleteStudent(${index})">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        html += `</table>`;
+
+
+        list.innerHTML = html;
+
+    }
+
+
+
+    // ==========================================
+    // EDIT STUDENT
+    // ==========================================
+
+    function editStudent(index) {
+
+        let student =
+            students[index];
+
+
+        editIndex = index;
+
+
+        document.getElementById("studentForm")
+            .style.display = "block";
+
+
+        document.getElementById("pastEntries")
+            .style.display = "none";
+
+
+        document.getElementById("formTitle")
+            .innerText = "Edit Student";
+
+
+        document.getElementById("saveButton")
+            .style.display = "none";
+
+
+        document.getElementById("updateButton")
+            .style.display = "block";
+
+
+        // Put old data into form
+
+        document.getElementById("studentName").value =
+            student.name;
+
+
+        document.getElementById("studentEnrollment").value =
+            student.enrollment;
+
+
+        document.getElementById("studentSemester").value =
+            student.semester;
+
+
+        document.getElementById("javaMarks").value =
+            student.java;
+
+
+        document.getElementById("cnMarks").value =
+            student.cn;
+
+
+        document.getElementById("wadMarks").value =
+            student.wad;
+
+
+        document.getElementById("pdsMarks").value =
+            student.pds;
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+
+    // ==========================================
+    // UPDATE STUDENT
+    // ==========================================
+
+    function updateStudent() {
+
+        if (editIndex === -1) {
+
+            return;
+        }
+
+
+        let name =
+            document.getElementById("studentName").value.trim();
+
+        let enrollment =
+            document.getElementById("studentEnrollment").value.trim();
+
+        let semester =
+            document.getElementById("studentSemester").value;
+
+        let java =
+            Number(document.getElementById("javaMarks").value);
+
+        let cn =
+            Number(document.getElementById("cnMarks").value);
+
+        let wad =
+            Number(document.getElementById("wadMarks").value);
+
+        let pds =
+            Number(document.getElementById("pdsMarks").value);
+
+
+        if (
+            name === "" ||
+            enrollment === "" ||
+            semester === ""
+        ) {
+
+            alert("Please fill all fields!");
+
+            return;
+        }
+
+
+        // Calculate new total
+
+        let total =
+            java + cn + wad + pds;
+
+
+        let percentage =
+            (total / 400) * 100;
+
+
+        // Update student data
+
+        students[editIndex] = {
+
+            name: name,
+
+            enrollment: enrollment,
+
+            semester: semester,
+
+            java: java,
+
+            cn: cn,
+
+            wad: wad,
+
+            pds: pds,
+
+            total: total,
+
+            percentage:
+                percentage.toFixed(2)
+
+        };
+
+
+        // Save updated data
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
+
+
+        alert(
+            "Student information updated successfully!"
+        );
+
+
+        editIndex = -1;
+
+
+        showPastEntries();
+
+    }
+
+
+
+    // ==========================================
+    // DELETE STUDENT
+    // ==========================================
+
+    function deleteStudent(index) {
+
+        let student =
+            students[index];
+
+
+        let confirmDelete =
+            confirm(
+                "Do you want to delete " +
+                student.name +
+                "'s result?"
+            );
+
+
+        if (!confirmDelete) {
+
+            return;
+        }
+
+
+        students.splice(index, 1);
+
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
+
+
+        alert(
+            "Student deleted successfully!"
+        );
+
+
+        displayStudents();
+
+    }
+
+
+
+    // ==========================================
+    // CANCEL FORM
+    // ==========================================
+
+    function cancelForm() {
+
+        document.getElementById("studentForm")
+            .style.display = "none";
+
+
+        editIndex = -1;
+
+    }
+
+
+
+    // ==========================================
+    // CHECK RESULT
+    // ==========================================
+
+    function checkResult() {
+
+        let enrollment =
+            document.getElementById("searchEnrollment")
+            .value.trim();
+
+
+        if (enrollment === "") {
+
+            alert(
+                "Please enter Enrollment Number!"
+            );
+
+            return;
+        }
+
+
+        let student =
+            students.find(
+                student =>
+                student.enrollment === enrollment
+            );
+
+
+        let result =
+            document.getElementById("result");
+
+
+        if (!student) {
+
+            result.innerHTML = `
+
+                <p class="error">
+                    Result not found!
+                </p>
+
+            `;
+
+            return;
+        }
+
+
+        // PASS / FAIL
+
+        let status = "PASS";
+
+        let statusClass = "pass";
+
+
+        if (
+            student.java < 40 ||
+            student.cn < 40 ||
+            student.wad < 40 ||
+            student.pds < 40
+        ) {
+
+            status = "FAIL";
+
+            statusClass = "fail";
+
+        }
+
+
+        // Display result
+
+        result.innerHTML = `
+
+            <h2>Student Result</h2>
+
+
+            <p>
+                <b>Name:</b>
+                ${student.name}
+            </p>
+
+
+            <p>
+                <b>Enrollment No:</b>
+                ${student.enrollment}
+            </p>
+
+
+            <p>
+                <b>Semester:</b>
+                ${student.semester}
+            </p>
+
+
+            <table>
+
+                <tr>
+
+                    <th>Subject</th>
+
+                    <th>Marks</th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Java</td>
+
+                    <td>${student.java}</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Computer Network</td>
+
+                    <td>${student.cn}</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>WAD</td>
+
+                    <td>${student.wad}</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>PDS</td>
+
+                    <td>${student.pds}</td>
+
+                </tr>
+
+            </table>
+
+
+            <p>
+                <b>Total:</b>
+                ${student.total} / 400
+            </p>
+
+
+            <p>
+                <b>Percentage:</b>
+                ${student.percentage}%
+            </p>
+
+
+            <p class="${statusClass}">
+                ${status}
+            </p>
+
+        `;
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>
